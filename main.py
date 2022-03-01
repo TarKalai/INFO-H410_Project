@@ -1,5 +1,6 @@
 import pygame
-from game_ui import WIDTH, HEIGHT, Slide2048
+from game_ui import WIDTH, HEIGHT, Py2048
+import numpy
 import os
 # from EightPuzzle_astar import playAIGame
 # from EightPuzzle_RL import initPlayerAI
@@ -28,9 +29,8 @@ def main():
     pygame.display.set_caption("2048 game")
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     fpsclock = pygame.time.Clock()
-
     while True:
-        slide2048 = Slide2048((4, 4), 120, 5, screen)
+        py2048 = Py2048(4, screen)
         #if args.astar:
         #    choice = slide2048.selectPlayerMenu("2048 using A* search")
         #elif args.rl:
@@ -42,7 +42,7 @@ def main():
         #    print()
         #    print("Please select an option (--astar, or --rl)")
         #    sys.exit()
-        slide2048.draw()
+        py2048.draw()
 
         print("bonjour")
 
