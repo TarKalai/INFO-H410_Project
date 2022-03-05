@@ -42,9 +42,9 @@ def main():
         #    print()
         #    print("Please select an option (--astar, or --rl)")
         #    sys.exit()
-        py2048.draw()
+        py2048.startGame()
 
-        print("bonjour")
+
 
 
 
