@@ -1,9 +1,9 @@
 import sys, os, random
 import numpy as np
 import colors as c
+from copy import deepcopy
 import re
 import pathlib
-# from tkinter import CENTER
 # from matplotlib.widgets import Widget
 import pygame
 from pygame.locals import *
@@ -14,6 +14,8 @@ HEIGHT = 510
 # Constant for the size of the text.
 TXT_CORE_SIZE = 38
 TXT_MENU_SIZE = 50
+
+moves = ['u', 'l', 'r', 'd']
 
 
 class Py2048:
@@ -31,6 +33,13 @@ class Py2048:
         self.ms = 6
         self.ts = (HEIGHT - (gs + 1) * self.ms) / gs
         self.grid = np.zeros((gs, gs), dtype=int)
+
+        self.commands = {
+            'u': self.move_up,
+            'd': self.move_down,
+            'l': self.move_left,
+            'r': self.move_right
+        }
 
     def draw(self):
         # Initialing Color
@@ -61,19 +70,15 @@ class Py2048:
         self.add_number(nb=2)
         while True:
             self.draw()
+            if self.check_game_over():
+                print('the game is lost')
             command = self.waitKey()
             print(command)
 
             if command == 'q':
                 break
-            elif command == 'u':
-                self.move_up()
-            elif command == 'l':
-                self.move_left()
-            elif command == 'r':
-                self.move_right()
-            elif command == 'd':
-                self.move_down()
+            else:
+                self.commands[command]()
 
             self.add_number()
 
@@ -87,8 +92,8 @@ class Py2048:
             count = 0
             for row in range(self.gs):  # Colones
                 if self.grid[row, col] != 0:
-                    if row > 0 and count > 0 and not check[count - 1, col] and self.grid[count - 1, col] == self.grid[
-                        row, col]:
+                    if row > 0 and count > 0 and not check[count - 1, col] \
+                            and self.grid[count - 1, col] == self.grid[row, col]:
                         self.grid[count - 1, col] *= 2
                         check[count - 1, col] += 1
                         self.grid[row, col] = 0
@@ -132,6 +137,16 @@ class Py2048:
                     elif event.key == pygame.K_ESCAPE:
                         return 'q'
 
+    def check_game_over(self):
+        original = deepcopy(self.grid)
+        for move in moves:
+            self.commands[move]()
+            if not (original == self.grid).all():
+                self.grid = original
+                return False
+            self.grid = deepcopy(original)
+        return True
+
     def add_number(self, nb=1):
         """
         Will add number 2 or 4 to the grid at a random available position at the begining of each turn. In the
@@ -140,15 +155,12 @@ class Py2048:
         :return: /
         """
         available_pos = list(zip(*np.where(self.grid == 0)))
-        print(available_pos)
-        if len(available_pos)>0:
+        if len(available_pos) > 0:
             for position in random.sample(available_pos, k=nb):
                 if random.random() > 0.1:
                     self.grid[position] = 2
                 else:
                     self.grid[position] = 4
-
-
 
     def exit(self):
         """
