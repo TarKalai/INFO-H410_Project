@@ -72,14 +72,15 @@ class Py2048:
             self.draw()
             if self.check_game_over():
                 print('the game is lost')
-            command = self.waitKey()
-            print(command)
+            tag = True
+            command = ""
+            while tag:
+                command = self.waitKey()
+                tag = not self.check_valid_move(command)
 
             if command == 'q':
                 break
-            else:
-                self.commands[command]()
-
+            self.commands[command]()
             self.add_number()
 
     def move_up(self):
@@ -142,9 +143,26 @@ class Py2048:
         for move in moves:
             self.commands[move]()
             if not (original == self.grid).all():
-                self.grid = original
+                self.grid = deepcopy(original)
                 return False
             self.grid = deepcopy(original)
+        return True
+
+    def check_valid_move(self, move):
+        """
+        It will check if the move the player is trying to play is valid or not
+        :param self:
+        :param move: the move that tries to be played
+        :return: returns True if the move is valid
+        """
+        if move in moves:
+            original = deepcopy(self.grid)
+            self.commands[move]()
+            if not (original == self.grid).all():
+                self.grid = deepcopy(original)
+                return True
+            self.grid = deepcopy(original)
+            return False
         return True
 
     def add_number(self, nb=1):
