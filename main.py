@@ -31,6 +31,7 @@ def main():
     fpsclock = pygame.time.Clock()
     while True:
         py2048 = Py2048(4, screen)
+        py2048.menu()
         # if args.astar:
         #    choice = slide2048.selectPlayerMenu("2048 using A* search")
         # elif args.rl:
@@ -42,7 +43,6 @@ def main():
         #    print()
         #    print("Please select an option (--astar, or --rl)")
         #    sys.exit()
-        py2048.startGame()
 
 
 if __name__ == "__main__":

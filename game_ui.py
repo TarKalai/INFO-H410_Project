@@ -14,9 +14,12 @@ WIDTH = 900
 HEIGHT = 510
 # Constant for the size of the text.
 TXT_CORE_SIZE = 38
-TXT_MENU_SIZE = 50
+TXT_MENU_SIZE = 40
+TXT_FINAL_SIZE = 50
 
 moves = ['u', 'l', 'r', 'd']
+menu_command = ['h', 'a', 'r']
+game_over_command = ['y', 'm']
 
 
 class Py2048:
@@ -35,38 +38,105 @@ class Py2048:
         self.gs = gs
         self.ms = 6
         self.ts = (HEIGHT - (gs + 1) * self.ms) / gs
-        self.grid = np.zeros((gs, gs), dtype=int)
+        self.grid = np.zeros((gs, gs), dtype=int)  # c.loose_grid
         self.game_size = 4 * (self.ts + self.ms) + self.ms
         self.score = 0
 
         self.commands = {
-            'u': self.move_up,
-            'd': self.move_down,
-            'l': self.move_left,
-            'r': self.move_right
+            'u': self.moveUp,
+            'd': self.moveDown,
+            'l': self.moveLeft,
+            'r': self.moveRight
         }
 
+    def menu(self):
+        """
+        Menu appearing at the launch of the game. Through this menu you can choose who is going to play.
+        :return:
+        """
+        self.displayMenu()
+        key = ''
+        valid = False
+        while not valid:
+            key = self.waitMenuKey()
+            if key in menu_command:
+                valid = True
+        if key == 'h':
+            self.__init__(self.gs, self.screen)
+            self.startGame()
+
+    def gameOver(self):
+        self.displayGameOver()
+        key = ''
+        valid = False
+        while not valid:
+            key = self.waitGameOverKey()
+            if key in game_over_command:
+                valid = True
+        if key == 'y':
+            self.__init__(self.gs, self.screen)
+            self.startGame()
+        elif key == 'm':
+            self.menu()
+
+    def displayGameOver(self):
+        self.blurScreen()
+        text = "CONGRATS, YOU ARE OFFICIALLY A LOSER!"
+        if np.amax(self.grid) >= 2048:
+            text = "CONGRATS, YOU WON!"
+        self.drawText(text, TXT_FINAL_SIZE, 20, 50, 255, 255, 255, True)
+        self.drawText("SCORE : " + str(self.score), TXT_FINAL_SIZE + 20, 20, 120, 255, 255, 255, True)
+        self.drawText("To play again press: <y>", TXT_FINAL_SIZE, 20, 200, 255, 255, 255, True)
+        self.drawText("To go back to menu press: <m>", TXT_FINAL_SIZE, 20, 250, 255, 255, 255, True)
+        pygame.display.update()
+
+    def blurScreen(self):
+        fade = pygame.Surface((WIDTH, HEIGHT))
+        fade.fill((0, 0, 0))
+        for alpha in range(0, 200):
+            fade.set_alpha(alpha)
+            self.drawBoard()
+            self.screen.blit(fade, (0, 0))
+            pygame.display.update()
+            pygame.time.delay(5)
+
+    def displayMenu(self):
+        self.screen.fill((0, 0, 0))
+        self.drawText("Welcome to 2048. A game designed by : ",
+                      TXT_MENU_SIZE, 100, 50, 255, 255, 255, False)
+        self.drawText("    - De Vos Sébastien",
+                      TXT_MENU_SIZE, 100, 90, 255, 255, 255, False)
+        self.drawText("    - Silberwasser David",
+                      TXT_MENU_SIZE, 100, 130, 255, 255, 255, False)
+        self.drawText("    - Tarik Kalai",
+                      TXT_MENU_SIZE, 100, 170, 255, 255, 255, False)
+        self.drawText("Press <h> if you want to play the game yourself.", TXT_MENU_SIZE, 100, 250, 255, 255, 255, False)
+        self.drawText("Press <a> to let the AI play the game.", TXT_MENU_SIZE, 100, 300, 255, 255, 255, False)
+        pygame.display.flip()
+
     def startGame(self):
-        self.add_number(nb=2)
+        self.addNumber(nb=2)
         while True:
             self.draw()
-            if self.check_game_over():
+            if self.checkGameOver():
                 print('the game is lost')
+                break
             tag = True
             command = ""
             while tag:
-                command = self.waitKey()
-                tag = not self.check_valid_move(command)
+                command = self.waitGameKey()
+                tag = not self.checkValidMove(command)
 
             if command == 'q':
                 break
             self.commands[command](test_move=False)
-            self.add_number()
+            self.addNumber()
+        self.gameOver()
 
-    def move_up(self, test_move):
+    def moveUp(self, test_move):
         """
-        Will move the tiles upwards and fuse the tiles if they can.
-        """
+            Will move the tiles upwards and fuse the tiles if they can.
+            """
         check = np.zeros_like(self.grid, dtype=int)  # a matrice of 0, if the tiles merge, the position of the merge
         for col in range(self.gs):  # Lines
             count = 0
@@ -86,35 +156,35 @@ class Py2048:
                     else:
                         count += 1
 
-    def move_right(self, test_move):
+    def moveRight(self, test_move):
         """
-        Will rotate the board matrice to the left, thus making it like a right move is an up move. We can thus apply
-        move_up and then rotate backward the matrice.
-        """
+            Will rotate the board matrice to the left, thus making it like a right move is an up move. We can thus apply
+            move_up and then rotate backward the matrice.
+            """
         self.grid = np.rot90(self.grid, 1)
-        self.move_up(test_move)
+        self.moveUp(test_move)
         self.grid = np.rot90(self.grid, -1)
 
-    def move_left(self, test_move):
+    def moveLeft(self, test_move):
         """
-        Will rotate the board matrice to the right, thus making it like a left move is an up move. We can thus apply
-        move_up and then rotate backward the matrice.
-        """
+            Will rotate the board matrice to the right, thus making it like a left move is an up move. We can thus apply
+            move_up and then rotate backward the matrice.
+            """
         self.grid = np.rot90(self.grid, -1)
-        self.move_up(test_move)
+        self.moveUp(test_move)
         self.grid = np.rot90(self.grid, 1)
 
-    def move_down(self, test_move):
+    def moveDown(self, test_move):
         """
-        Will rotate the board matrice twice to the left, thus making it like a down move is an up move. We can thus
-        apply move_up and then rotate backward the matrice.
-        """
+            Will rotate the board matrice twice to the left, thus making it like a down move is an up move. We can thus
+            apply move_up and then rotate backward the matrice.
+            """
         self.grid = np.rot90(self.grid, 2)
-        self.move_up(test_move)
+        self.moveUp(test_move)
         self.grid = np.rot90(self.grid, 2)
 
     @staticmethod
-    def waitKey():
+    def waitGameKey():
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -132,12 +202,44 @@ class Py2048:
                         return 'q'
             pygame.time.delay(20)
 
-    def check_game_over(self):
+    @staticmethod
+    def waitGameOverKey():
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+                if event.type == KEYDOWN:
+                    if event.key == pygame.K_y:
+                        return 'y'
+                    elif event.key == pygame.K_m:
+                        return 'm'
+                    elif event.key == pygame.K_ESCAPE:
+                        return 'q'
+            pygame.time.delay(20)
+
+    @staticmethod
+    def waitMenuKey():
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+                if event.type == KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        return 'q'
+                    elif event.key == pygame.K_h:
+                        return 'h'
+                    elif event.key == pygame.K_a:
+                        return 'a'
+                    elif event.key == pygame.K_r:
+                        return 'r'
+            pygame.time.delay(20)
+
+    def checkGameOver(self):
         """
-        It will check if the game is over or not by trying all possible moves, i.e. u,r,d,l.
-        :param self:
-        :return: returns True if the game is over
-        """
+            It will check if the game is over or not by trying all possible moves, i.e. u,r,d,l.
+            :param self:
+            :return: returns True if the game is over
+            """
         original = deepcopy(self.grid)
         for move in moves:
             self.commands[move](test_move=True)
@@ -147,13 +249,13 @@ class Py2048:
             self.grid = deepcopy(original)
         return True
 
-    def check_valid_move(self, move):
+    def checkValidMove(self, move):
         """
-        It will check if the move the player is trying to play is valid or not
-        :param self:
-        :param move: the move that tries to be played
-        :return: returns True if the move is valid
-        """
+            It will check if the move the player is trying to play is valid or not
+            :param self:
+            :param move: the move that tries to be played
+            :return: returns True if the move is valid
+            """
         if move in moves:
             original = deepcopy(self.grid)
             self.commands[move](test_move=True)
@@ -164,13 +266,13 @@ class Py2048:
             return False
         return True
 
-    def add_number(self, nb=1):
+    def addNumber(self, nb=1):
         """
-        Will add number 2 or 4 to the grid at a random available position at the begining of each turn. In the
-        beginning of the game we need to add 2 numbers, so we specify nb = 2.
-        :param nb: number of numbers to add
-        :return: /
-        """
+            Will add number 2 or 4 to the grid at a random available position at the begining of each turn. In the
+            beginning of the game we need to add 2 numbers, so we specify nb = 2.
+            :param nb: number of numbers to add
+            :return: /
+            """
         available_pos = list(zip(*np.where(self.grid == 0)))
         if len(available_pos) > 0:
             for position in random.sample(available_pos, k=nb):
@@ -181,21 +283,21 @@ class Py2048:
 
     def exit(self):
         """
-        Exit the application.
-        """
+            Exit the application.
+            """
         pygame.quit()
         sys.exit()
 
     def draw(self):
-        self.screen.fill(c.GC['background'])           # Erases the old score with the color of the background
+        self.screen.fill(c.GC['background'])  # Erases the old score with the color of the background
         self.drawShortcuts(True)
-        self.draw_board()
+        self.drawBoard()
         pygame.display.flip()
 
-    def draw_board(self):
+    def drawBoard(self):
         """
-        Draws then board with the corresponding tile colors.
-        """
+            Draws then board with the corresponding tile colors.
+            """
         for i in range(self.gs):
             for j in range(self.gs):
                 value = self.grid[i][j]
@@ -208,7 +310,7 @@ class Py2048:
                 pygame.draw.rect(self.screen, color, pygame.Rect(pos_x, pos_y, self.ts, self.ts),
                                  border_radius=8)  # pos + dimension
 
-                if not value:
+                if not value:  # prevents from displaying the value 0
                     continue
 
                 text_surface = self.myFont.render(f'{value}', True, (0, 0, 0))
@@ -217,33 +319,32 @@ class Py2048:
 
     def drawText(self, text, size, x, y, R, G, B, center):
         """
-        Draw text.
+            Draw text.
 
-        :param text:    The text to draw on the  String.
-        :param size:    The size of the text, Int.
-        :param x:       The x position of the text, Int.
-        :param y:       The y position of the text, Int.
-        :param R:       The R color, Int.
-        :param G:       The G color, Int.
-        :param B:       The B color, Int.
-        :param center:  If the text need to be in the center, Boolean.
-        """
+            :param text:    The text to draw on the  String.
+            :param size:    The size of the text, Int.
+            :param x:       The x position of the text, Int.
+            :param y:       The y position of the text, Int.
+            :param R:       The R color, Int.
+            :param G:       The G color, Int.
+            :param B:       The B color, Int.
+            :param center:  If the text need to be in the center, Boolean.
+            """
         font = pygame.font.Font(None, size)
         text = font.render(text, True, (R, G, B))
         if center:
-            text_rect = text.get_rect()
-            text_rect.midtop = (x, y)
-            self.screen.blit(text, text_rect)
+            width = text.get_width()
+            self.screen.blit(text, (WIDTH // 2 - width // 2, y))
         else:
             self.screen.blit(text, (x, y))
 
     def drawShortcuts(self, is_player):
         """
-        Draw in game shortcuts.
+            Draw in game shortcuts.
 
-        :param is_player:   A Boolean, it checks if it is a player because, shorcuts are different in
-                            the player mode or in the AI mode. →
-        """
+            :param is_player:   A Boolean, it checks if it is a player because, shorcuts are different in
+                                the player mode or in the AI mode. →
+            """
         self.drawText("Score : {}".format(self.score), TXT_CORE_SIZE, self.game_size + 30, 10, 255, 255, 255, False)
         self.drawText("Shortcuts of the game", TXT_CORE_SIZE, self.game_size + 30, 40, 255, 255, 255, False)
         self.drawText("Restart: Escape", TXT_CORE_SIZE, self.game_size + 30, 70, 255, 255, 255, False)
