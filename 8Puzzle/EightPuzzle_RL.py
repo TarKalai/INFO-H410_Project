@@ -135,7 +135,7 @@ class AIPlayer:
         while not self.puzzle.want_to_quit:
             dt = fpsclock.tick()
             self.puzzle.screen.fill((0, 0, 0))
-            self.puzzle.draw()
+            self.puzzle.draw_board()
             self.puzzle.drawShortcuts(
                 False, self.getQValues(self.puzzle.convertToString())
             )

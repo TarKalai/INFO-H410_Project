@@ -9,7 +9,7 @@ import sys
 
 
 def main():
-    parser = argparse.ArgumentParser(description="8Puzzle game.")
+    parser = argparse.ArgumentParser(description="2048 game.")
 
     parser.add_argument(
         "-a",
@@ -18,9 +18,9 @@ def main():
         help="Start the program in A* mode.",
     )
     parser.add_argument(
-        "-r", 
-        "--rl", 
-        action="store_true", 
+        "-r",
+        "--rl",
+        action="store_true",
         help="Start the program in RL mode."
     )
     args = parser.parse_args()
@@ -31,21 +31,18 @@ def main():
     fpsclock = pygame.time.Clock()
     while True:
         py2048 = Py2048(4, screen)
-        #if args.astar:
+        # if args.astar:
         #    choice = slide2048.selectPlayerMenu("2048 using A* search")
-        #elif args.rl:
+        # elif args.rl:
         #    choice = slide2048.selectPlayerMenu(
         #        "2048 using Reinforcement Learning"
         #    )
-        #else:
+        # else:
         #    parser.print_help()
         #    print()
         #    print("Please select an option (--astar, or --rl)")
         #    sys.exit()
         py2048.startGame()
-
-
-
 
 
 if __name__ == "__main__":

@@ -57,7 +57,7 @@ def playAIGame(puzzle, fpsclock):
     while not finished and not puzzle.want_to_quit:
         dt = fpsclock.tick(FPS)
         puzzle.screen.fill((0, 0, 0))
-        puzzle.draw()
+        puzzle.draw_board()
         puzzle.drawShortcuts(False, None)
         pygame.display.flip()
         puzzle.catchGameEvents(False, lambda: puzzle.switch(next(path), True))
