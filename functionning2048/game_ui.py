@@ -1,17 +1,16 @@
-import sys, os, random
-import numpy as np
-import colors as c
+import random
+import sys
 from copy import deepcopy
 
-import re
-import pathlib
-# from matplotlib.widgets import Widget
+import numpy as np
 import pygame
 from pygame.locals import *
 
+import colors as c
+
 # Constant for the size of the screen.
 WIDTH = 900
-HEIGHT = 510
+HEIGHT = 500
 # Constant for the size of the text.
 TXT_CORE_SIZE = 38
 TXT_MENU_SIZE = 40
@@ -37,7 +36,7 @@ class Py2048:
         self.myFont = pygame.font.SysFont('Arial', 40, bold=1)
         self.gs = gs
         self.ms = 6
-        self.ts = (HEIGHT - (gs + 1) * self.ms) / gs
+        self.ts = (HEIGHT - (gs*2+2) * self.ms) / gs
         self.grid = np.zeros((gs, gs), dtype=int)  # c.loose_grid
         self.game_size = 4 * (self.ts + self.ms) + self.ms
         self.score = 0
@@ -304,11 +303,11 @@ class Py2048:
 
                 color = c.GC[value]
 
-                pos_x = j * (self.ts + self.ms) + self.ms
-                pos_y = i * (self.ts + self.ms) + self.ms
+                pos_x = j * (self.ts + 2*self.ms) + 2*self.ms
+                pos_y = i * (self.ts + 2*self.ms) + 2*self.ms
 
                 pygame.draw.rect(self.screen, color, pygame.Rect(pos_x, pos_y, self.ts, self.ts),
-                                 border_radius=8)  # pos + dimension
+                                 border_radius=4)  # pos + dimension
 
                 if not value:  # prevents from displaying the value 0
                     continue
