@@ -1,7 +1,7 @@
 import pygame
 import sys
 from settings import *
-from level import Level
+from board import Board
 
 class Game:
     def __init__(self):
@@ -12,7 +12,7 @@ class Game:
         pygame.display.set_caption('2048')
         self.clock = pygame.time.Clock()
 
-        self.level = Level()
+        self.level = Board()
 
     def run(self):
         while True:

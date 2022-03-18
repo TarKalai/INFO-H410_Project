@@ -1,11 +1,12 @@
 # game setup
+import numpy as np
 WIDTH       = 900
 HEIGHT      = 500
 FPS         = 60
 MARGESIZE   = 6
 GRIDSIZE    = 4
-TILESIZE    = (HEIGHT - (GRIDSIZE*2+2) * MARGESIZE) / GRIDSIZE
-print(TILESIZE)
+TILESIZE    = int((HEIGHT - (GRIDSIZE*2+2) * MARGESIZE) / GRIDSIZE)
+SPEED       = 40
 
 COLORS = {
     'background': (189, 172, 161),
@@ -23,3 +24,13 @@ COLORS = {
     2048: (236, 196, 2),
     4096: (96, 217, 146)
 }
+
+TEST_GRID = np.array([[2, 4, 8, 16],
+                      [32, 64, 128, 256],
+                      [512, 1024, 2048, 4096],
+                      [0, 0, 0, 0]])
+
+loose_grid = np.array([[2, 4, 2, 4],
+                      [4, 2, 4, 2],
+                      [2, 4, 2, 4],
+                      [4, 2, 4, 2]])
