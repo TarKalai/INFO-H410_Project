@@ -55,6 +55,7 @@ class Board:
                 self.set_tile_target()
                 self.update_tile_list()
                 self.update_tile_value()
+                self.add_number()
 
         elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
             if self.check_valid_move('d'):
@@ -62,6 +63,7 @@ class Board:
                 self.set_tile_target()
                 self.update_tile_list()
                 self.update_tile_value()
+                self.add_number()
 
         elif keys[pygame.K_LEFT] or keys[pygame.K_q]:
             if self.check_valid_move('l'):
@@ -69,6 +71,7 @@ class Board:
                 self.set_tile_target()
                 self.update_tile_list()
                 self.update_tile_value()
+                self.add_number()
 
         elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             if self.check_valid_move('r'):
@@ -76,6 +79,7 @@ class Board:
                 self.set_tile_target()
                 self.update_tile_list()
                 self.update_tile_value()
+                self.add_number()
 
         else:
             self.tileMovement = np.zeros((GRIDSIZE, GRIDSIZE, 2), dtype=int)
