@@ -38,9 +38,19 @@ class Tile(pygame.sprite.Sprite):
         self.direction = direction
 
     def finished_movement(self):
+        """
+            Tell if the movement is finished or not. 
+        """
         if self.posX == self.targetPosX and self.posY == self.targetPosY:
             self.set_direction(pygame.math.Vector2())
         return self.posX == self.targetPosX and self.posY == self.targetPosY
+
+    def update_value(self, value):
+        self.value = value
+        self.image.fill(COLORS[self.value])
+        self.text_surf = self.font.render(f'{self.value}', True, 'Black')
+        self.text_rect = self.text_surf.get_rect(center=(TILESIZE / 2, TILESIZE / 2))
+        self.image.blit(self.text_surf, self.text_rect)
 
     def new_target(self, direction):
         self.targetPosX = self.targetPosX + TILEDISPLACEMENT * direction[0]
