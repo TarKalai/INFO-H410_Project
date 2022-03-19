@@ -1,12 +1,13 @@
 # game setup
 import numpy as np
 WIDTH       = 900
-HEIGHT      = 500
+HEIGHT      = 540
 FPS         = 60
-MARGESIZE   = 6
+MARGESIZE   = 5
 GRIDSIZE    = 4
 TILESIZE    = int((HEIGHT - (GRIDSIZE*2+2) * MARGESIZE) / GRIDSIZE)
-SPEED       = 40
+TILEDISPLACEMENT = TILESIZE + 2*MARGESIZE
+SPEED       = TILEDISPLACEMENT / 6
 
 COLORS = {
     'background': (189, 172, 161),

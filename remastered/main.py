@@ -3,6 +3,7 @@ import sys
 from settings import *
 from board import Board
 
+
 class Game:
     def __init__(self):
 
@@ -10,9 +11,9 @@ class Game:
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('2048')
-        self.clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock()  # will enable us to run at 60 frames per seconds
 
-        self.level = Board()
+        self.board = Board()
 
     def run(self):
         while True:
@@ -22,7 +23,7 @@ class Game:
                     sys.exit()
 
             self.screen.fill(COLORS['background'])
-            self.level.run()
+            self.board.run()
             pygame.display.update()
             self.clock.tick(FPS)
 

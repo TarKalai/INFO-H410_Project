@@ -12,5 +12,4 @@ test = np.array([[2, 4, 8, 16],
 print((test.all() == TEST_GRID).all())
 """
 
-#class Lerper():
-#    float previou_velocity()
+
