@@ -16,7 +16,7 @@ class Game:
         self.drawer = Drawer()
         self.board = Board(self, self.drawer)
 
-    def board_game_input(self):
+    def board_input(self):
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -40,7 +40,7 @@ class Game:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_h:
-                        self.state = 'board_game'
+                        self.state = 'board_state'
     
     def pause_input(self):
         for event in pygame.event.get():
@@ -49,7 +49,7 @@ class Game:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.state = 'board_game'
+                        self.state = 'board_state'
                     elif event.key == pygame.K_m:
                         self.state = 'menu_state'
                         self.board.new_board()
@@ -62,28 +62,16 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self.board.new_board()
-                        self.state = 'board_game'
+                        self.state = 'board_state'
                     elif event.key == pygame.K_m:
                         self.state = 'menu_state'
                         self.board.new_board()
                         
-    def board_game(self):
+    def board_state(self):
         self.screen.fill(COLORS['background'])
         self.board.run()
         pygame.display.update()
 
-    def state_manager(self):
-        """
-        Organise which state is running
-        """
-        if self.state == 'menu_state':
-            self.menu_state()
-        elif self.state == 'board_game':
-            self.board_game()
-        elif self.state == 'pause_state':
-            self.pause_state()
-        elif self.state == 'game_over_state':
-            self.game_over_state()
     
     def pause_state(self):
         self.drawer.drawPauseShortcuts()
@@ -100,6 +88,20 @@ class Game:
         self.drawer.drawGameOverShortcuts(self.board.score, self.board.grid)
         self.game_over_input()
         pygame.display.update()
+
+
+    def state_manager(self):
+        """
+        Organise which state is running
+        """
+        if self.state == 'menu_state':
+            self.menu_state()
+        elif self.state == 'board_state':
+            self.board_state()
+        elif self.state == 'pause_state':
+            self.pause_state()
+        elif self.state == 'game_over_state':
+            self.game_over_state()
     
     def run(self):
         while True:

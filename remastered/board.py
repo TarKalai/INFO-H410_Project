@@ -59,7 +59,7 @@ class Board:
         """
         We list and deal with all possible moves. In the 
         """
-        input_move = self.main.board_game_input()
+        input_move = self.main.board_input()
         if input_move in moves:
             self.move(input_move)
     
