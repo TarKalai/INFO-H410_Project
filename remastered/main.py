@@ -1,5 +1,4 @@
 import pygame
-import sys
 from settings import *
 from board import Board
 
@@ -17,11 +16,6 @@ class Game:
 
     def run(self):
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-
             self.screen.fill(COLORS['background'])
             self.board.run()
             pygame.display.update()

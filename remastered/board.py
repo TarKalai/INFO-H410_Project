@@ -1,4 +1,5 @@
 import pygame
+import sys
 import numpy as np
 from settings import *
 from copy import deepcopy
@@ -47,7 +48,8 @@ class Board:
     def input(self):
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    exit()
+                    pygame.quit()
+                    sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP or event.key == pygame.K_z:
                         self.move('u')
@@ -88,6 +90,7 @@ class Board:
 
     def run(self):
         self.visible_sprites.draw(self.display_surface)
+
         self.input()
 
 
