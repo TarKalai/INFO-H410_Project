@@ -83,9 +83,10 @@ class Drawer:
     def blurScreen(self, board):
         fade = pygame.Surface((WIDTH, HEIGHT))
         fade.fill((0, 0, 0))
-        for alpha in range(0, 200, 4):
+        for alpha in range(0, 200, 2):
             fade.set_alpha(alpha)
             board.visible_sprites.draw(self.display_surface)
             self.display_surface.blit(fade, (0, 0))
             pygame.display.update()
-            pygame.time.delay(FPS)
+            pygame.time.Clock().tick(FPS)
+            print(alpha)
