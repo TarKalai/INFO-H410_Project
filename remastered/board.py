@@ -40,7 +40,6 @@ class Board:
         return /
         """
         self.grid = np.zeros((GRIDSIZE, GRIDSIZE), dtype=int)
-        self.grid = loose_grid
         self.score = 0
         self.add_number(nb=2)
         self.update_board()
@@ -72,7 +71,6 @@ class Board:
             if self.checkGameOver():
                 self.main.state = 'game_over_state'
                 self.drawer.blurScreen(self)
-                print("bonjour")
 
     def add_number(self, nb=1):
         """

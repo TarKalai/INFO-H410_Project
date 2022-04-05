@@ -36,13 +36,12 @@ class Drawer:
         """
         self.drawText("Score : {}".format(score), TXT_CORE_SIZE, GAMESIZE + 30, 10, 255, 255, 255, False)
         self.drawText("Shortcuts of the game", TXT_CORE_SIZE, GAMESIZE + 30, 40, 255, 255, 255, False)
-        self.drawText("Restart: Escape", TXT_CORE_SIZE, GAMESIZE + 30, 70, 255, 255, 255, False)
+        self.drawText("Pause: Escape", TXT_CORE_SIZE, GAMESIZE + 30, 70, 255, 255, 255, False)
         if is_player:
             self.drawText("Move up: <z> or ", TXT_CORE_SIZE, GAMESIZE + 30, 100, 255, 255, 255, False)
             self.drawText("Move down: <s> or", TXT_CORE_SIZE, GAMESIZE + 30, 130, 255, 255, 255, False)
             self.drawText("Move left: <q> or", TXT_CORE_SIZE, GAMESIZE + 30, 160, 255, 255, 255, False)
             self.drawText("Move right: <d> or", TXT_CORE_SIZE, GAMESIZE + 30, 190, 255, 255, 255, False)
-            self.drawText("Random move: <Space>", TXT_CORE_SIZE, GAMESIZE + 30, 220, 255, 255, 255, False)
         else:
             self.drawText("AI move: <Space>", TXT_CORE_SIZE, 500, 100, 255, 255, 255, False)
             self.drawText("auto AI move: <a>", TXT_CORE_SIZE, 500, 130, 255, 255, 255, False)
@@ -89,4 +88,3 @@ class Drawer:
             self.display_surface.blit(fade, (0, 0))
             pygame.display.update()
             pygame.time.Clock().tick(FPS)
-            print(alpha)
