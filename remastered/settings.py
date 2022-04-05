@@ -6,6 +6,10 @@ FPS         = 60
 MARGESIZE   = 5
 GRIDSIZE    = 4
 TILESIZE    = int((HEIGHT - (GRIDSIZE*2+2) * MARGESIZE) / GRIDSIZE)
+GAMESIZE    = HEIGHT
+TXT_CORE_SIZE = 38
+TXT_MENU_SIZE = 40
+TXT_FINAL_SIZE = 50
 
 
 COLORS = {
@@ -32,5 +36,5 @@ TEST_GRID = np.array([[2, 4, 8, 16],
 
 loose_grid = np.array([[2, 4, 2, 4],
                       [4, 2, 4, 2],
-                      [2, 4, 2, 4],
-                      [4, 2, 4, 2]])
+                      [2, 4, 2, 32],
+                      [4, 2, 128, 32]])

@@ -1,27 +1,30 @@
 import pygame
-import sys
 import numpy as np
+import random
+
 from settings import *
 from copy import deepcopy
 from tile import Tile
-import random
+from drawer import Drawer
+
 
 moves = ['u', 'l', 'r', 'd']
 
 
 class Board:
-    def __init__(self):
+    def __init__(self, main, drawer):
         # get the display surface
 
+        self.main = main
+        self.drawer = drawer
         self.display_surface = pygame.display.get_surface()
         # sprite group setup
 
         self.visible_sprites = pygame.sprite.Group()
 
         self.grid = np.zeros((GRIDSIZE, GRIDSIZE), dtype=int)
-        self.create_board()
+        self.new_board()
 
-        self.canMove = True
         self.score = 0
         self.commands = {
             'u': self.move_up,
@@ -31,12 +34,21 @@ class Board:
         }
 
 
-    def create_board(self):
+    def new_board(self):
+        """
+        Create a new empty board game with 2 tiles.
+        return /
+        """
+        self.grid = np.zeros((GRIDSIZE, GRIDSIZE), dtype=int)
+        self.grid = loose_grid
+        self.score = 0
         self.add_number(nb=2)
         self.update_board()
-        
-
+    
     def update_board(self):
+        """
+        Update the board after a move. 
+        """
         self.visible_sprites.empty()
         for row_index, row in enumerate(self.grid):
             for col_index, col in enumerate(row):
@@ -44,33 +56,23 @@ class Board:
                 y = int(row_index * (TILESIZE + 2 * MARGESIZE) + 2 * MARGESIZE)
                 Tile((x, y),  [self.visible_sprites], self.grid[row_index, col_index])
     
-
     def input(self):
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP or event.key == pygame.K_z:
-                        self.move('u')
-                        return 
-                    elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                        self.move('r')
-                        return 
-                    elif event.key == pygame.K_LEFT or event.key == pygame.K_q:
-                        self.move('l')
-                        return
-                    elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                        self.move('d')
-                        return
-                    elif event.key == pygame.K_ESCAPE:
-                        return 'q' # TODO ecrirela fonction qui appel le menu
+        """
+        We list and deal with all possible moves. In the 
+        """
+        input_move = self.main.board_game_input()
+        if input_move in moves:
+            self.move(input_move)
     
     def move(self, input):
-        print("Je suis dans le move")
-        self.commands[input]()
-        self.add_number()
-        self.update_board()
+        if self.check_valid_move(input):
+            self.commands[input]()
+            self.add_number()
+            self.update_board()
+            if self.checkGameOver():
+                self.main.state = 'game_over_state'
+                self.drawer.blurScreen(self)
+                print("bonjour")
 
     def add_number(self, nb=1):
         """
@@ -90,7 +92,7 @@ class Board:
 
     def run(self):
         self.visible_sprites.draw(self.display_surface)
-
+        self.drawer.drawBoardShortcuts(self.score)
         self.input()
 
 
@@ -159,4 +161,19 @@ class Board:
                 return True
             self.grid = deepcopy(original)
             return False
+        return True
+        
+    def checkGameOver(self):
+        """
+            It will check if the game is over or not by trying all possible moves, i.e. u,r,d,l.
+            :param self:
+            :return: returns True if the game is over
+            """
+        original = deepcopy(self.grid)
+        for move in moves:
+            self.commands[move](test_move=True)
+            if not (original == self.grid).all():
+                self.grid = deepcopy(original)
+                return False
+            self.grid = deepcopy(original)
         return True
