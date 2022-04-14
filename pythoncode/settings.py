@@ -4,13 +4,13 @@ WIDTH       = 900
 HEIGHT      = 540
 FPS         = 600
 MARGESIZE   = 5
-GRIDSIZE    = 10
+GRIDSIZE    = 4
 TILESIZE    = int((HEIGHT - (GRIDSIZE*2+2) * MARGESIZE) / GRIDSIZE)
 GAMESIZE    = HEIGHT
 TXT_CORE_SIZE = 38
 TXT_MENU_SIZE = 40
 TXT_FINAL_SIZE = 50
-DEPTH = 5
+DEPTH = 6
 
 MOVES = ['u', 'l', 'r', 'd']
 
@@ -50,3 +50,8 @@ WEIGHT = np.array( [[0.135759, 0.121925, 0.102812, 0.099937],
                     [0.0997992, 0.0888405, 0.076711, 0.0724143],
                     [0.060654, 0.0562579, 0.037116, 0.0161889],
                     [0.0125498, 0.00992495, 0.00575871, 0.00335193]])
+
+# WEIGHT = np.array( [[7, 6, 5, 4],
+#                     [6, 5, 4, 3],
+#                     [5, 4, 3, 2],
+#                     [4, 3, 2, 1]])

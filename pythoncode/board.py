@@ -8,10 +8,6 @@ from copy import deepcopy
 from tile import Tile
 
 
-
-
-
-
 class Board:
     def __init__(self, main, drawer):
         # get the display surface
@@ -60,9 +56,12 @@ class Board:
         """
         We list and deal with all possible moves. In the 
         """
-        #input_move = self.main.board_input()
-        random_index = random.randrange(len(MOVES))
-        input_move = MOVES[random_index]
+        
+        if False:
+            random_index = random.randrange(len(MOVES))
+            input_move = MOVES[random_index]
+        else:
+            input_move = self.main.board_input()
         if input_move in MOVES:
             self.move(input_move)
     
@@ -75,9 +74,8 @@ class Board:
                 self.main.state = 'game_over_state'
                 self.drawer.blurScreen(self)
 
-    def move_on_input(self, input_move, grid):
-        return self.commands[input_move](grid, 0)
-
+    def move_on_input(self, input_move, grid, score=0):
+        return self.commands[input_move](grid, score)
 
     def add_number(self, grid, nb=1):
         """
@@ -97,9 +95,12 @@ class Board:
 
 
     def run(self):
+        self.draw()
+        self.input()
+
+    def draw(self):
         self.visible_sprites.draw(self.display_surface)
         self.drawer.drawBoardShortcuts(self.score)
-        self.input()
 
 
     def move_up(self, grid, score):
