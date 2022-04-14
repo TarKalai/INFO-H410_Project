@@ -58,7 +58,8 @@ class Drawer:
         self.drawText("    - Tarik Kalai",
                       TXT_MENU_SIZE, 100, 170, 255, 255, 255, False)
         self.drawText("Press <h> if you want to play the game yourself.", TXT_MENU_SIZE, 100, 250, 255, 255, 255, False)
-        self.drawText("Press <a> to let the AI play the game.", TXT_MENU_SIZE, 100, 300, 255, 255, 255, False)
+        self.drawText("Press <e> to let the AI expectimax play the game.", TXT_MENU_SIZE, 100, 300, 255, 255, 255, False)
+        self.drawText("Press <m> to let the AI montecarlo play the game.", TXT_MENU_SIZE, 100, 350, 255, 255, 255, False)
     
     def drawPauseShortcuts(self):
         self.display_surface.fill((0, 0, 0))

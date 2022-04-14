@@ -43,8 +43,10 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_h:
                         self.state = 'board_state'
-                    elif event.key == pygame.K_a:
+                    elif event.key == pygame.K_e:
                         self.state = 'ai_expectimax_state'
+                    elif event.key == pygame.K_m:
+                        self.state = 'ai_montecarlo_state'
     
     def pause_input(self):
         for event in pygame.event.get():
@@ -82,7 +84,11 @@ class Game:
         self.ai.run_expectimax()
         pygame.display.update()
 
-
+    def ai_montecarlo_state(self):
+        self.screen.fill(COLORS['background'])
+        self.board.draw()
+        self.ai.run_montecarlo()
+        pygame.display.update()
 
     def pause_state(self):
         self.drawer.drawPauseShortcuts()
@@ -113,6 +119,8 @@ class Game:
             self.game_over_state()
         elif self.state =='ai_expectimax_state':
             self.ai_expectimax_state()
+        elif self.state =='ai_montecarlo_state':
+            self.ai_montecarlo_state()
     
     def run(self):
         while True:
