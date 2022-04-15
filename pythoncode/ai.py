@@ -40,7 +40,7 @@ class Expectimax:
             return -1000, ""
         
         if is_max:
-            alpha, fmove = -INFINITY, ""
+            alpha, fmove = -INFINITY(), ""
             for move in MOVES:
                 tempgrid = deepcopy(grid)
                 if self.board.check_valid_move(move, tempgrid):
@@ -99,12 +99,11 @@ class Montecarlo:
         return move
 
     def end(self):
-        score = -INFINITY
+        score = -INFINITY()
         move = ""
         for child in self.node.getChild():
             if child.getNbvisit()>0:
                 temp = child.getScore()/child.getNbvisit()
-                print(temp)
                 if temp>score:
                     score = temp
                     move = child.getMove()
@@ -130,11 +129,12 @@ class Montecarlo:
 
 
     def selectWorkingNode(self, node):
-        ucb = -INFINITY
+        ucb = -INFINITY()
         finalnode = None
         for child in node.getChild():
             ucbchild = self.formula(child)
             if ucbchild > ucb:
+                ucb = ucbchild
                 finalnode = child
         return finalnode
 
@@ -142,7 +142,7 @@ class Montecarlo:
         if node.getNbvisit():
             return node.getScore()/node.getNbvisit() + 2*sqrt(log(self.node.getNbvisit())/node.getNbvisit())
         else:
-            return INFINITY
+            return INFINITY()
 
     def rollout(self, node):
         temp = deepcopy(node.getGrid())
@@ -159,7 +159,7 @@ class Montecarlo:
             # input_move = MOVES[random_index]
             temp, _ = self.board.move_on_input(input_move, temp)
             temp = self.board.add_number(temp)
-        node.setScore(sum(sum(temp)))
+        node.setScore(sum(sum(temp))/50)
         node.setNbvisit(1)
         
 class Node:
