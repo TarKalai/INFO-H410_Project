@@ -4,10 +4,10 @@ from board import Board
 from drawer import Drawer
 from ai import AI
 import sys
+import matplotlib.pyplot as plt
 
 class Game:
-    def __init__(self):
-        
+    def __init__(self): 
         self.state = 'menu_state'
         # general setup
         pygame.init()
@@ -17,6 +17,7 @@ class Game:
         self.drawer = Drawer()
         self.board = Board(self, self.drawer)
         self.ai = AI(self, self.drawer, self.board)
+        self.round = 0
 
     def board_input(self):
         for event in pygame.event.get():
@@ -70,8 +71,41 @@ class Game:
                         self.board.new_board()
                         self.state = 'board_state'
                     elif event.key == pygame.K_m:
-                        self.state = 'menu_state'
                         self.board.new_board()
+                        self.state = 'menu_state'
+        if TRAINING == 1 and NBROUND > self.round:
+            self.addToFile("montecarlo", SIMULATION)
+            self.round +=1
+            self.board.new_board()
+            self.state = 'ai_montecarlo_state'
+        elif TRAINING == 2 and NBROUND > self.round:
+            self.addToFile("expectimax", DEPTH)
+            self.round +=1
+            self.board.new_board()
+            self.state = 'ai_expectimax_state'
+    
+    def addToFile(self, filename, param):
+        file1 = open(filename+str(param)+".txt", "a")  # append mode
+        score = self.board.getScore()
+        file1.write(str(score)+" "+str(param)+"\n")
+        file1.close()
+
+    def plot(self, filename, param):
+        score = []
+        depth = []
+        data = open(filename+str(param), 'r')
+        for elem in data: 
+            elem = elem.split()
+            score.append(elem[0])
+            depth.append(elem[1])
+        plt.bar(score, depth, color = 'g', label = 'File Data')
+        plt.xlabel('Depth', fontsize = 12)
+        plt.ylabel('Score', fontsize = 12)
+        plt.title('Performance', fontsize = 20)
+        plt.legend()
+        plt.show()
+
+                        
                         
     def board_state(self):
         self.screen.fill(COLORS['background'])

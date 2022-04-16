@@ -1,8 +1,10 @@
 # game setup
 import numpy as np
+
+
 WIDTH       = 900
 HEIGHT      = 540
-FPS         = 600
+FPS         = 60
 MARGESIZE   = 5
 GRIDSIZE    = 4
 TILESIZE    = int((HEIGHT - (GRIDSIZE*2+2) * MARGESIZE) / GRIDSIZE)
@@ -10,8 +12,13 @@ GAMESIZE    = HEIGHT
 TXT_CORE_SIZE = 38
 TXT_MENU_SIZE = 40
 TXT_FINAL_SIZE = 50
-DEPTH = 4
+TRAINING = 2 # 2 for expectimax, 1 for montecarlo
+NBROUND = 100
+
+DEPTH = 6
 SIMULATION = 50
+
+
 def INFINITY():
     return 9999
 
@@ -33,10 +40,10 @@ COLORS = {
     1024: (227, 186, 19),
     2048: (236, 196, 2),
     4096: (96, 217, 146),
-    8192: (255, 255, 255),
-    16384: (255, 255, 255),
-    32768: (255, 255, 255),
-    65536: (255, 255, 255)
+    8192: (100, 100, 100),
+    16384: (150, 150, 150),
+    32768: (200, 200, 200),
+    65536: (250, 250, 250)
 }
 
 TEST_GRID = np.array([[2, 4, 8, 16],
