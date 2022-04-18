@@ -1,3 +1,4 @@
+from copy import deepcopy
 import pygame
 from settings import *
 from board import Board
@@ -9,6 +10,7 @@ import matplotlib.pyplot as plt
 class Game:
     def __init__(self): 
         self.state = 'menu_state'
+        self.old_state = 'menu_state'
         # general setup
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -34,6 +36,7 @@ class Game:
                     elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                         return 'd'
                     elif event.key == pygame.K_ESCAPE:
+                        self.old_state = deepcopy(self.state)
                         self.state = 'pause_state'
     
     def menu_input(self):
@@ -56,7 +59,7 @@ class Game:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.state = 'board_state'
+                        self.state = deepcopy(self.old_state)
                     elif event.key == pygame.K_m:
                         self.state = 'menu_state'
                         self.board.new_board()
@@ -104,7 +107,6 @@ class Game:
         plt.title('Performance', fontsize = 20)
         plt.legend()
         plt.show()
-
                         
                         
     def board_state(self):
@@ -116,12 +118,14 @@ class Game:
         self.screen.fill(COLORS['background'])
         self.board.draw()
         self.ai.run_expectimax()
+        self.board_input()
         pygame.display.update()
 
     def ai_montecarlo_state(self):
         self.screen.fill(COLORS['background'])
         self.board.draw()
         self.ai.run_montecarlo()
+        self.board_input()
         pygame.display.update()
 
     def pause_state(self):
