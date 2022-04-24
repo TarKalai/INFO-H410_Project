@@ -12,11 +12,11 @@ GAMESIZE    = HEIGHT
 TXT_CORE_SIZE = 38
 TXT_MENU_SIZE = 40
 TXT_FINAL_SIZE = 50
-TRAINING = 1 # 2 for expectimax, 1 for montecarlo
+TRAINING = 2 # 2 for expectimax, 1 for montecarlo
 NBROUND = 100
 
-DEPTH = 4
-SIMULATION = 50
+DEPTH = 6
+SIMULATION = 20
 
 
 def INFINITY():
