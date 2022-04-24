@@ -1,7 +1,7 @@
 # game setup
 import numpy as np
 
-
+"""settings relevent to the size of the window and number of tiles you want to play. by default we advise not to change these"""
 WIDTH       = 900
 HEIGHT      = 540
 FPS         = 60
@@ -12,11 +12,18 @@ GAMESIZE    = HEIGHT
 TXT_CORE_SIZE = 38
 TXT_MENU_SIZE = 40
 TXT_FINAL_SIZE = 50
-TRAINING = 2 # 2 for expectimax, 1 for montecarlo
+
+"""
+If you want to store the results of the game the AI plays change the Training value.
+The number NBROUND represents the number of time the ai will play the game, so by placing 100 the ai will play 100 times the game and 
+store the 100 results in a file of name <AIused><DEPTH or SIMULATION>.txt in the results directory. ex : results/expectimax4.txt 
+"""
+TRAINING = 0 # 0 is no data gathering, 1 for montecarlo, 2 for expectimax
 NBROUND = 100
 
-DEPTH = 6
-SIMULATION = 20
+"""For Expectimax change the depth and for MonteCarlo change the number of simulations"""
+DEPTH = 4
+SIMULATION = 30
 
 
 def INFINITY():
@@ -51,7 +58,7 @@ TEST_GRID = np.array([[2, 4, 8, 16],
                       [512, 1024, 2048, 4096],
                       [0, 0, 0, 0]])
 
-loose_grid = np.array([[2, 4, 2, 4], #For test purpose. 
+loose_grid = np.array([[2, 4, 2, 4],
                       [4, 2, 4, 2],
                       [2, 4, 2, 32],
                       [4, 2, 128, 32]])
@@ -60,8 +67,3 @@ WEIGHT = np.array( [[0.135759, 0.121925, 0.102812, 0.099937],
                     [0.0997992, 0.0888405, 0.076711, 0.0724143],
                     [0.060654, 0.0562579, 0.037116, 0.0161889],
                     [0.0125498, 0.00992495, 0.00575871, 0.00335193]])
-
-# WEIGHT = np.array( [[7, 6, 5, 4],
-#                     [6, 5, 4, 3],
-#                     [5, 4, 3, 2],
-#                     [4, 3, 2, 1]])

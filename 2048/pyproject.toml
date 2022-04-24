@@ -1,18 +1,14 @@
 [tool.poetry]
-name = "tetris"
-version = "0.1.0"
+name = "2048"
+version = "1.0.0"
 description = ""
-authors = ["Ken <ken@kenh.fr>"]
+authors = ["De Vos Sébastien <sebastien.de.vos@ulb.be>", "Kalai Tarik <tarik.kalai@ulb.be", "Silberwasser David <david.silberwasser@ulb.be"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = ">=3.8"
-matplotlib = ">=3"
 numpy = ">=1.19"
-tensorflow = ">=2.4"
-Pillow = ">=7"
-opencv-python = ">=4"
-tqdm = "*" 
+pygame = ">=2.1.2"
 
 [tool.poetry.dev-dependencies]
 

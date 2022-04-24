@@ -5,7 +5,6 @@ from board import Board
 from drawer import Drawer
 from ai import AI
 import sys
-import matplotlib.pyplot as plt
 
 class Game:
     def __init__(self): 
@@ -88,25 +87,10 @@ class Game:
             self.state = 'ai_expectimax_state'
     
     def addToFile(self, filename, param):
-        file1 = open(filename+str(param)+".txt", "a")  # append mode
+        file1 = open("results/"+filename+str(param)+".txt", "a")  # append mode
         score = self.board.getScore()
         file1.write(str(score)+" "+str(param)+"\n")
         file1.close()
-
-    def plot(self, filename, param):
-        score = []
-        depth = []
-        data = open(filename+str(param), 'r')
-        for elem in data: 
-            elem = elem.split()
-            score.append(elem[0])
-            depth.append(elem[1])
-        plt.bar(score, depth, color = 'g', label = 'File Data')
-        plt.xlabel('Depth', fontsize = 12)
-        plt.ylabel('Score', fontsize = 12)
-        plt.title('Performance', fontsize = 20)
-        plt.legend()
-        plt.show()
                         
                         
     def board_state(self):
