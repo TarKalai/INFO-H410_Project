@@ -1,11 +1,26 @@
-# INFO-H410_Project
+# 2048
 
-##A corriger : 
-- PROB RESOLU Il ne devrait pas y avoir de nouveau chiffre qui se rajoute lorsque l'on fait un "coup pour rien"
-- PROB RESOLU La fin dans certains cas n'indique pas "you lost"
-- Toujours pas vu : Parfois dans une colonne quand elle est la seule libre (1 colonne) et qu'on joue dans une direction un coup pour rien, le jeu déplace carrément un 2 qui s'y trouvait précédement...
+You will find here below the instructions and details on the 2048 game. The goal of the game is to merge as much tiles as possible and try to reach the 2048 tile. To merge tiles they need to have the same number, and each time tiles merge the resulting number of the merge is added to your score.
 
+this implementation of the game uses 2 different AI : Expectimax and Montecarlo. You can fine tune the settings in the setting.py file
 
-## Idea for the display: 
+# Installation
 
-- When the IA lose: Congrats to the programmers, they are officially losers!
+To install the application, first start by coping the git repository, either by getting the zip archive from github, or with the command:
+
+```
+git clone https://github.com/TarKalai/INFO-H410_Project.git
+```
+then acces the file :
+```
+cd 2048
+```
+after you have installed python and poetry, you can start installing the dependecies for the project by running :
+```
+poetry install
+```
+# Utilisation 
+to launch the game :
+```
+poetry run python main.py
+```
