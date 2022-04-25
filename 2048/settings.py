@@ -18,8 +18,8 @@ If you want to store the results of the game the AI plays change the Training va
 The number NBROUND represents the number of time the ai will play the game, so by placing 100 the ai will play 100 times the game and 
 store the 100 results in a file of name <AIused><DEPTH or SIMULATION>.txt in the results directory. ex : results/expectimax4.txt 
 """
-TRAINING = 2 # 0 is no data gathering, 1 for montecarlo, 2 for expectimax
-NBROUND = 1
+TRAINING = 0 # 0 is no data gathering, 1 for montecarlo, 2 for expectimax
+NBROUND = 2
 
 """For Expectimax change the depth and for MonteCarlo change the number of simulations"""
 DEPTH = 4
