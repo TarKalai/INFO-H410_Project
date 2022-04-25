@@ -71,6 +71,7 @@ class Board:
             self.grid = self.add_number(self.grid)
             self.update_board()
             if self.checkGameOver(self.grid):
+                self.main.old_state = deepcopy(self.main.state)
                 self.main.state = 'game_over_state'
                 self.drawer.blurScreen(self)
 

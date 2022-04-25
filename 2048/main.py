@@ -50,6 +50,7 @@ class Game:
                         self.state = 'ai_expectimax_state'
                     elif event.key == pygame.K_m:
                         self.state = 'ai_montecarlo_state'
+
     
     def pause_input(self):
         for event in pygame.event.get():
@@ -71,16 +72,21 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self.board.new_board()
-                        self.state = 'board_state'
+                        self.state = deepcopy(self.old_state)
                     elif event.key == pygame.K_m:
                         self.board.new_board()
                         self.state = 'menu_state'
-        if TRAINING == 1 and NBROUND > self.round:
+                        
+        if TRAINING > 0 and NBROUND > self.round:
+            self.training_input()
+    
+    def training_input(self):
+        if TRAINING == 1:
             self.addToFile("montecarlo", SIMULATION)
             self.round +=1
             self.board.new_board()
             self.state = 'ai_montecarlo_state'
-        elif TRAINING == 2 and NBROUND > self.round:
+        elif TRAINING == 2:
             self.addToFile("expectimax", DEPTH)
             self.round +=1
             self.board.new_board()
