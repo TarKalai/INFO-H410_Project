@@ -10,14 +10,17 @@ class Game:
     def __init__(self): 
         self.state = 'menu_state'
         self.old_state = 'menu_state'
+
         # general setup
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('2048')
         self.clock = pygame.time.Clock()  # will enable us to run at 60 frames per seconds
+
         self.drawer = Drawer()
         self.board = Board(self, self.drawer)
         self.ai = AI(self, self.drawer, self.board)
+
         self.round = 0
 
     def board_input(self):
@@ -93,7 +96,7 @@ class Game:
             self.state = 'ai_expectimax_state'
     
     def addToFile(self, filename, param):
-        file1 = open("results/"+filename+str(param)+".txt", "a")  # append mode
+        file1 = open("results/"+filename+str(param)+".txt", "a")
         score = self.board.getScore()
         file1.write(str(score)+" "+str(param)+"\n")
         file1.close()
