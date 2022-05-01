@@ -128,8 +128,8 @@ class Game:
         Adds the results the AI obtained during the game to a .txt file in the /2048/results/ folder.
         the name of the .txt file depends on the AI that has played and the depth/simulation used.
         example : if the AI is Monte-carlo and the number of simulation is 20, the filename will be "montecarlo20.txt"
-        :param ai: the AI used in a string
-        :param param: The Depth/simulation of the AI as an int.
+        :param ai: (String) The AI used in a string
+        :param param: (Int) The Depth/simulation of the AI as an int.
         :return: None
         """
         file1 = open("results/" + ai + str(param) + ".txt", "a")
@@ -173,7 +173,7 @@ class Game:
         Display the pause screen.
         :return: None
         """
-        self.drawer.drawPauseShortcuts()
+        self.drawer.draw_pause_shortcuts()
         self.pause_input()
         pygame.display.update()
 
@@ -182,7 +182,7 @@ class Game:
         Display the menu screen
         :return: None
         """
-        self.drawer.drawMenuShortcuts()
+        self.drawer.draw_menu_shortcuts()
         self.menu_input()
         pygame.display.update()
 
@@ -191,7 +191,7 @@ class Game:
         Display the game over screen
         :return: None
         """
-        self.drawer.drawGameOverShortcuts(self.board.score, self.board.grid)
+        self.drawer.draw_game_over_shortcuts(self.board.score, self.board.grid)
         self.game_over_input()
         pygame.display.update()
 

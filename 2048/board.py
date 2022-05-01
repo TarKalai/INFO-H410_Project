@@ -8,7 +8,11 @@ from tile import Tile
 
 class Board:
     def __init__(self, main, drawer):
-
+        """
+        Initialise the Board Class
+        :param main: (Object) The Main Class
+        :param drawer: (Object) The Drawer Class
+        """
         self.main = main
         self.drawer = drawer
         self.display_surface = pygame.display.get_surface()
@@ -28,8 +32,8 @@ class Board:
 
     def new_board(self):
         """
-        Create a new empty board game with 2 tiles.
-        return /
+        Create a new empty grid with 2 tiles.
+        :return: None
         """
         self.grid = np.zeros((GRIDSIZE, GRIDSIZE), dtype=int)
         self.score = 0
@@ -73,7 +77,7 @@ class Board:
             if self.check_game_over(self.grid):
                 self.main.old_state = deepcopy(self.main.state)
                 self.main.state = 'game_over_state'
-                self.drawer.blurScreen(self)
+                self.drawer.blur_screen(self)
 
     def move_on_input(self, input_move, grid, score=0):
         """
@@ -105,18 +109,20 @@ class Board:
 
     def run(self):
         """
-        :return:
+        When the game is played by a human, this function is called and runs FPS (see settings.py) times per second.
+        It makes the human game run by updating the screen and calling the input() function.
+        :return: None
         """
         self.draw()
         self.input()
 
     def draw(self):
         """
-        Draw the tiles and the shortcuts on the screen
+        Draw the tiles and the shortcuts on the screen.
         :return: None
         """
         self.visible_sprites.draw(self.display_surface)
-        self.drawer.drawBoardShortcuts(self.score)
+        self.drawer.draw_board_shortcuts(self.score)
 
     def move_up(self, grid, score):
         """

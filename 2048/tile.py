@@ -4,6 +4,12 @@ from debug import *
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, groups, value=0):
+        """
+        Creates a Tile to bea displayed on the screen.
+        :param pos: (Int, Int) a tuple corresponding to the (x, y) coordinates the tiles must be on the screen.
+        :param groups: (List of Sprite) the group of sprite the tile belongs to.
+        :param value: (Int) The value inside the Tile.
+        """
         super().__init__(groups)
 
         self.value = value

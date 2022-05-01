@@ -90,7 +90,7 @@ class Montecarlo:
                 child = self.selectWorkingNode(mothernode)
                 if child is not None:
                     self.rollout(child)
-                    self.updateScoreParent(child, child.getScore())
+                    self.updateScoreParent(child, child.get_score())
                 else:
                     mothernode.set_score(0)
             simulation += 1
@@ -154,8 +154,6 @@ class Montecarlo:
                     available.remove(input_move)
                 else:
                     break
-            # random_index = random.randrange(len(available))
-            # input_move = MOVES[random_index]
             temp, _ = self.board.move_on_input(input_move, temp)
             temp = self.board.add_number(temp)
         node.set_score(sum(sum(temp)) / 50)
