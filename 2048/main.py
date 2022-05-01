@@ -1,10 +1,11 @@
-from copy import deepcopy
 import pygame
+import sys
+
 from settings import *
+from copy import deepcopy
 from board import Board
 from drawer import Drawer
 from ai import AI
-import sys
 
 
 class Game:
@@ -123,18 +124,18 @@ class Game:
             self.board.new_board()
             self.state = 'ai_expectimax_state'
 
-    def add_to_file(self, ai, param):
+    def add_to_file(self, ai, complexity):
         """
         Adds the results the AI obtained during the game to a .txt file in the /2048/results/ folder.
         the name of the .txt file depends on the AI that has played and the depth/simulation used.
         example : if the AI is Monte-carlo and the number of simulation is 20, the filename will be "montecarlo20.txt"
         :param ai: (String) The AI used in a string
-        :param param: (Int) The Depth/simulation of the AI as an int.
+        :param complexity: (Int) The Depth/simulation of the AI as an int.
         :return: None
         """
-        file1 = open("results/" + ai + str(param) + ".txt", "a")
+        file1 = open("results/" + ai + str(complexity) + ".txt", "a")
         score = self.board.get_score()
-        file1.write(str(score) + " " + str(param) + "\n")
+        file1.write(str(score) + " " + str(complexity) + "\n")
         file1.close()
 
     def board_state(self):

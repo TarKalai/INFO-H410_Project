@@ -42,7 +42,8 @@ class Board:
 
     def update_board(self):
         """
-        Update the board after a move. 
+        Update the board after a move.
+        :return: None
         """
         self.visible_sprites.empty()
         for row_index, row in enumerate(self.grid):
@@ -131,13 +132,12 @@ class Board:
         :param score: (Int) the score of the current game.
         :return: the grid moved upwards, and the updated score of the game.
         """
-        check = np.zeros_like(grid, dtype=int)  # A matrice of 0, if the tiles merge, the position will be equal to 1.
+        check = np.zeros_like(grid, dtype=int)  # A matrix of 0, if the tiles merge, the position will be equal to 1.
         for col in range(GRIDSIZE):  # Lines
             count = 0
-            for row in range(GRIDSIZE):  # Colones
+            for row in range(GRIDSIZE):  # Columns
                 if grid[row, col] != 0:
-                    if row > 0 and count > 0 and not check[count - 1, col] \
-                            and grid[count - 1, col] == grid[row, col]:
+                    if row > 0 and count > 0 and not check[count - 1, col] and grid[count - 1, col] == grid[row, col]:
                         grid[count - 1, col] *= 2
                         grid[row, col] = 0
                         check[count - 1, col] += 1
@@ -152,8 +152,8 @@ class Board:
 
     def move_right(self, grid, score):
         """
-        Will rotate the board matrice to the left, thus making it like a right move is an up move. We can thus apply
-        move_up and then rotate backward the matrice.
+        Will rotate the board matrix to the left, thus making it like a right move is an up move. We can thus apply
+        move_up and then rotate backward the matrix.
         :param grid: (Numpy Array) A numpy array of the game.
         :param score: (Int) the score of the current game.
         :return: The grid moved rightwards, and the updated score of the game.
@@ -165,8 +165,8 @@ class Board:
 
     def move_left(self, grid, score):
         """
-        Will rotate the board matrice to the right, thus making it like a left move is an up move. We can thus apply
-        move_up and then rotate backward the matrice.
+        Will rotate the board matrix to the right, thus making it like a left move is an up move. We can thus apply
+        move_up and then rotate backward the matrix.
         :param grid: (Numpy Array) A numpy array of the game.
         :param score: (Int) the score of the current game.
         :return: The grid moved leftwards, and the updated score of the game.
@@ -178,8 +178,8 @@ class Board:
 
     def move_down(self, grid, score):
         """
-        Will rotate the board matrice twice to the left, thus making it like a down move is an up move. We can thus
-        apply move_up and then rotate backward the matrice.
+        Will rotate the board matrix twice to the left, thus making it like a down move is an up move. We can thus
+        apply move_up and then rotate backward the matrix.
         :param grid: (Numpy Array) A numpy array of the game.
         :param score: (Int) the score of the current game.
         :return: The grid moved downwards, and the updated score of the game.
