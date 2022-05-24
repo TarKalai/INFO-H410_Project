@@ -225,7 +225,7 @@ class Montecarlo:
     def formula(self, node):
         """
         Computes the UCB formula (when not specified the score and visit correspond to the node given by argument) :
-        UCB = score/visit + C * sqrt( log(root_visit/visit) )
+        UCB = score/visit + C * sqrt( log(root_visit)/visit )
         C is a constant to make a trade-off between exploitation and exploration. We have decided to put it to 2.
 
         This UCB formula is used in the Monte-Carlo tree search algorithme to determine which node to explore.
